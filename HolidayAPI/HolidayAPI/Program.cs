@@ -3,6 +3,8 @@ using Asp.Versioning.Conventions;
 using HolidayAPI.Endpoints;
 using HolidayAPI.Services;
 using HolidayAPI.Storage;
+using HolidayAPI.Storage.Rational;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TimeLogging.OpenApi;
@@ -51,6 +53,9 @@ var versionSet = app.NewApiVersionSet()
     .Build();
 
 app.AddHolidayEndpoints(versionSet);
+
+using var dbContext = new HolidayContext();
+dbContext.Database.Migrate();
 
 if (app.Environment.IsDevelopment())
 {
